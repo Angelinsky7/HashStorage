@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <title>HashStorage Developpment Index</title>
+</head>
+
+<body>
+    <p>Nothing</p>
+    <button id="save">Save</button>
+    <button id="clear">Clear</button>
+    <button id="print">Print</button>
+    <button id="remove">Remove</button>
+    <script src="/HashStorage.js"></script>
+    <script>
+        let options = {
+            Debug: false
+        };
+
+        // window.storage = new HashStorage.HashStorage(new HashStorage.StorageHash("#!/"), options);
+        // window.storage = new HashStorage.HashStorage(new HashStorage.Storage64(), options);
+        window.storage = new HashStorage.HashStorage(new HashStorage.StorageParams(), options);
+        window.storage.hashChanged.subscribe(function() {
+            console.log("hash as changed from event");
+            console.log("value of hash is " + window.storage);
+        });
+
+
+        // window.storage.setItem('item0', "value1");
+        // window.storage.setItem('item1', 123123);
+        // window.storage.setItem('item2', true);
+        window.storage.setItem('item3', [
+            1,
+            2,
+            3,
+            "test"
+        ]);
+
+        document.getElementById("save").addEventListener("click", function() {
+            window.storage.setItem("item222", 3434);
+            window.storage.setItem("item223", "ffff");
+            window.storage.setItem("item225", "ffff");
+            window.storage.setItem("item226", "ffff");
+            window.storage.setItem("item227", {
+                "test": 1,
+                "val": 2,
+                "hid": true
+            });
+            window.storage.setItem("item228", [
+                1,
+                2, [
+                    5,
+                    6,
+                    8
+                ]
+            ]);
+            window.storage.setItem("item11", [{
+                "a": 1,
+                "b": 9
+            }, {
+                "a": 2
+            }, {
+                "a": 5
+            }, ]);
+            //window.storage.testSave();
+        });
+
+        document.getElementById("clear").addEventListener("click", function() {
+            window.storage.clear();
+            //window.storage.testSave();
+        });
+
+        document.getElementById("print").addEventListener("click", function() {
+            console.log("item222 is " + window.storage.getItem("item222"));
+            console.log("item222 is " + window.storage.getItem("item223"));
+            console.log("item222 is " + window.storage.getItem("item225"));
+            console.log("item222 is " + window.storage.getItem("item226"));
+            console.log("item222 is " + window.storage.getItem("item227"));
+            //window.storage.testSave();
+        });
+
+        document.getElementById("remove").addEventListener("click", function() {
+            console.log("item222 is " + window.storage.getItem("item222"));
+            window.storage.removeItem("item222");
+            console.log("item222 is " + window.storage.getItem("item222"));
+        });
+    </script>
+</body>
+
+</html>

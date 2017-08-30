@@ -1,0 +1,5 @@
+## Ignore Docker volume Watcher
+
+# Node.js Tools for Visual Studio
+node_modules/*
+.npm/*

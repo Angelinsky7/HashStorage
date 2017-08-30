@@ -1,0 +1,50 @@
+{
+    "name": "hashstorage",
+    "version": "0.0.2",
+    "description": "A storage in the window location hash",
+    "main": "./dist/bundles/hashstorage.umd.js",
+    "types": "./dist/index.d.ts",
+    "browser": {
+        "hashstorage.js": "./dist/bundles/hashstorage.umd.js",
+        "hashstorage.min.js": "./dist/bundles/hashstorage.umd.min.js"
+    },
+    "scripts": {
+        "bundle": "npm  run prod && npm run build && npm pack",
+        "prod": "WEBPACK_ENV=prod webpack -p",
+        "build": "WEBPACK_ENV=build webpack",
+        "web": "WEBPACK_ENV=dev WEBPACK_CONFIG=./webpack.config.js node server.js",
+        "dev": "WEBPACK_ENV=dev webpack --progress --colors --watch",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Angelinsky7/HashStorage.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Angelinsky7/HashStorage/issues"
+    },
+    "homepage": "https://github.com/Angelinsky7/HashStorage",
+    "dependencies": {
+        "strongly-typed-events": "^1.0.1"
+    },
+    "devDependencies": {
+        "typescript": "^2.4.2",
+        "ts-loader": "^2.3.3",
+        "webpack": "^3.5.5",
+        "express": "^4.15.4",
+        "webpack-dev-middleware": "^1.12.0",
+        "webpack-hot-middleware": "^2.18.2",
+        "awesome-typescript-loader": "^3.2.3",
+        "source-map-loader": "^0.2.1",
+        "morgan": "^1.8.2",
+        "clean-webpack-plugin": "^0.1.16"
+    },
+    "keywords": [
+        "HashStorage",
+        "LocalStorage",
+        "typescript",
+        "javascript"
+    ],
+    "author": "Steven de Marco",
+    "license": "Apache License 2.0"
+}

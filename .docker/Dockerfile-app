@@ -1,0 +1,9 @@
+FROM node
+
+ENV HOME=/usr/src/app
+WORKDIR $HOME
+
+RUN npm install -g \
+    gulp-cli \
+    webpack \
+    typescript
