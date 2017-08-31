@@ -1,13 +1,14 @@
 import { StorageBase } from "./StorageBase";
+import { StorageBaseOptions } from "../Options/StorageModeOptions";
 
-export class StorageHash extends StorageBase {
+export class StorageJson extends StorageBase {
 
-    constructor(separator: string = null) {
-        super(separator);
+    constructor(options: StorageBaseOptions = null) {
+        super(options);
     }
 
     Save(data: Map<string, object>): string {
-        let result: string = this.m_Separator;
+        let result: string = this.m_BaseOptions.hashSeparator;
 
         if (data.size > 0) {
             let hash: any = {};
@@ -16,7 +17,7 @@ export class StorageHash extends StorageBase {
             });
             let strJson = JSON.stringify(hash);
             // window.location.replace(`#${strJson}`);
-            result = `${this.m_Separator}${strJson}`;
+            result = `${this.m_BaseOptions.hashSeparator}${strJson}`;
         } 
         // else {
         //     window.location.replace("#");
@@ -29,7 +30,7 @@ export class StorageHash extends StorageBase {
         let result = new Map<string, object>();
 
         try {
-            let hash = window.location.hash.slice(this.m_Separator.length);
+            let hash = window.location.hash.slice(this.m_BaseOptions.hashSeparator.length);
             if (hash.length > 0) {
                 hash = decodeURIComponent(hash);
                 let json = JSON.parse(hash);

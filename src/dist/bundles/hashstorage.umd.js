@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "9d475d95ac223371a570"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "77f1408d8992b9eb067d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -730,7 +730,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return hotCreateRequire(1)(__webpack_require__.s = 1);
+/******/ 	return hotCreateRequire(2)(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -740,13 +740,60 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var StorageBase = (function () {
-    function StorageBase(separator) {
-        if (separator === void 0) { separator = null; }
-        this.m_Separator = "#!";
-        if (separator !== null) {
-            this.m_Separator = separator;
+var ObjectExtensions = (function () {
+    function ObjectExtensions() {
+    }
+    ObjectExtensions.extend = function (a, b) {
+        var result = a;
+        for (var id in b) {
+            if (!result.hasOwnProperty(id)) {
+                result[id] = b[id];
+            }
         }
+        return result;
+    };
+    ObjectExtensions.override = function (a, b, checkValueExists) {
+        if (checkValueExists === void 0) { checkValueExists = true; }
+        var result = a;
+        for (var id in b) {
+            if (result.hasOwnProperty(id)) {
+                result[id] = b[id];
+            }
+            else if (checkValueExists) {
+                throw "property " + id + " does not exist in class " + typeof a + " : " + a + " and " + typeof b + " : " + b;
+            }
+        }
+        return result;
+    };
+    ObjectExtensions.overrideDefaultValue = function (options, default_option, checkValueExists) {
+        if (checkValueExists === void 0) { checkValueExists = true; }
+        if (options != null) {
+            ObjectExtensions.override(default_option, options, checkValueExists);
+        }
+        return default_option;
+    };
+    ObjectExtensions.isNumeric = function (value) {
+        return !isNaN(value);
+    };
+    return ObjectExtensions;
+}());
+exports.ObjectExtensions = ObjectExtensions;
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var ObjectExtensions_1 = __webpack_require__(0);
+var StorageBase = (function () {
+    function StorageBase(options) {
+        if (options === void 0) { options = null; }
+        this.m_BaseOptions = ObjectExtensions_1.ObjectExtensions.overrideDefaultValue(options, {
+            hashSeparator: "#!"
+        }, false);
     }
     return StorageBase;
 }());
@@ -754,34 +801,10 @@ exports.StorageBase = StorageBase;
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(2);
-
-
-/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-// declare var module: { hot: any };
-Object.defineProperty(exports, "__esModule", { value: true });
-var HashStorage_1 = __webpack_require__(3);
-exports.HashStorage = HashStorage_1.HashStorage;
-var StorageHash_1 = __webpack_require__(7);
-exports.StorageHash = StorageHash_1.StorageHash;
-var Storage64_1 = __webpack_require__(8);
-exports.Storage64 = Storage64_1.Storage64;
-var StorageParams_1 = __webpack_require__(9);
-exports.StorageParams = StorageParams_1.StorageParams;
-// if (module.hot) {
-//     module.hot.accept();
-//     module.hot.dispose(function () {
-//         console.log("HashStorage reloaded");
-//     });
-// } 
+module.exports = __webpack_require__(3);
 
 
 /***/ }),
@@ -791,8 +814,25 @@ exports.StorageParams = StorageParams_1.StorageParams;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var PropertyCounter_1 = __webpack_require__(4);
-var ObjectExtensions_1 = __webpack_require__(5);
+var HashStorage_1 = __webpack_require__(4);
+exports.HashStorage = HashStorage_1.HashStorage;
+var StorageJson_1 = __webpack_require__(7);
+exports.StorageJson = StorageJson_1.StorageJson;
+var Storage64_1 = __webpack_require__(8);
+exports.Storage64 = Storage64_1.Storage64;
+var StorageParams_1 = __webpack_require__(9);
+exports.StorageParams = StorageParams_1.StorageParams;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var PropertyCounter_1 = __webpack_require__(5);
+var ObjectExtensions_1 = __webpack_require__(0);
 var strongly_typed_events_1 = __webpack_require__(6);
 var HashStorage = (function () {
     function HashStorage(mode, options) {
@@ -917,7 +957,7 @@ exports.HashStorage = HashStorage;
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -953,42 +993,6 @@ var PropertyCounter = (function () {
     return PropertyCounter;
 }());
 exports.PropertyCounter = PropertyCounter;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var ObjectExtensions = (function () {
-    function ObjectExtensions() {
-    }
-    ObjectExtensions.extend = function (a, b) {
-        var result = a;
-        for (var id in b) {
-            if (!result.hasOwnProperty(id)) {
-                result[id] = b[id];
-            }
-        }
-        return result;
-    };
-    ObjectExtensions.override = function (a, b) {
-        var result = a;
-        for (var id in b) {
-            if (result.hasOwnProperty(id)) {
-                result[id] = b[id];
-            }
-        }
-        return result;
-    };
-    ObjectExtensions.isNumeric = function (value) {
-        return !isNaN(value);
-    };
-    return ObjectExtensions;
-}());
-exports.ObjectExtensions = ObjectExtensions;
 
 
 /***/ }),
@@ -1702,15 +1706,15 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var StorageBase_1 = __webpack_require__(0);
-var StorageHash = (function (_super) {
-    __extends(StorageHash, _super);
-    function StorageHash(separator) {
-        if (separator === void 0) { separator = null; }
-        return _super.call(this, separator) || this;
+var StorageBase_1 = __webpack_require__(1);
+var StorageJson = (function (_super) {
+    __extends(StorageJson, _super);
+    function StorageJson(options) {
+        if (options === void 0) { options = null; }
+        return _super.call(this, options) || this;
     }
-    StorageHash.prototype.Save = function (data) {
-        var result = this.m_Separator;
+    StorageJson.prototype.Save = function (data) {
+        var result = this.m_BaseOptions.hashSeparator;
         if (data.size > 0) {
             var hash_1 = {};
             data.forEach(function (v, k) {
@@ -1718,17 +1722,17 @@ var StorageHash = (function (_super) {
             });
             var strJson = JSON.stringify(hash_1);
             // window.location.replace(`#${strJson}`);
-            result = "" + this.m_Separator + strJson;
+            result = "" + this.m_BaseOptions.hashSeparator + strJson;
         }
         // else {
         //     window.location.replace("#");
         // }
         return result;
     };
-    StorageHash.prototype.Load = function () {
+    StorageJson.prototype.Load = function () {
         var result = new Map();
         try {
-            var hash = window.location.hash.slice(this.m_Separator.length);
+            var hash = window.location.hash.slice(this.m_BaseOptions.hashSeparator.length);
             if (hash.length > 0) {
                 hash = decodeURIComponent(hash);
                 var json = JSON.parse(hash);
@@ -1742,9 +1746,9 @@ var StorageHash = (function (_super) {
         }
         return result;
     };
-    return StorageHash;
+    return StorageJson;
 }(StorageBase_1.StorageBase));
-exports.StorageHash = StorageHash;
+exports.StorageJson = StorageJson;
 
 
 /***/ }),
@@ -1765,33 +1769,29 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 // import { IStorage } from "./IStorage";
-var StorageBase_1 = __webpack_require__(0);
+var StorageBase_1 = __webpack_require__(1);
 var Storage64 = (function (_super) {
     __extends(Storage64, _super);
-    function Storage64(separator) {
-        if (separator === void 0) { separator = null; }
-        return _super.call(this, separator) || this;
+    function Storage64(options) {
+        if (options === void 0) { options = null; }
+        return _super.call(this, options) || this;
     }
     Storage64.prototype.Save = function (data) {
-        var result = this.m_Separator;
+        var result = this.m_BaseOptions.hashSeparator;
         if (data.size > 0) {
             var hash_1 = {};
             data.forEach(function (v, k) {
                 hash_1[k] = v;
             });
             var strJson = this.b64EncodeUnicode(JSON.stringify(hash_1));
-            // window.location.replace(`#${strJson}`);
-            result = "" + this.m_Separator + strJson;
+            result = "" + this.m_BaseOptions.hashSeparator + strJson;
         }
-        //  else {
-        //     window.location.replace("#");
-        // }
         return result;
     };
     Storage64.prototype.Load = function () {
         var result = new Map();
         try {
-            var hash = window.location.hash.slice(this.m_Separator.length);
+            var hash = window.location.hash.slice(this.m_BaseOptions.hashSeparator.length);
             if (hash.length > 0) {
                 hash = decodeURIComponent(this.b64DecodeUnicode(hash));
                 var json = JSON.parse(hash);
@@ -1837,35 +1837,46 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var StorageBase_1 = __webpack_require__(0);
+var StorageBase_1 = __webpack_require__(1);
+var ObjectExtensions_1 = __webpack_require__(0);
 var TreeItem_1 = __webpack_require__(10);
 var StorageParams = (function (_super) {
     __extends(StorageParams, _super);
-    function StorageParams(key_separator, item_separator, separator) {
-        if (key_separator === void 0) { key_separator = null; }
-        if (item_separator === void 0) { item_separator = null; }
-        if (separator === void 0) { separator = null; }
-        var _this = _super.call(this, separator) || this;
-        _this.m_KeySeparator = "_";
-        _this.m_ItemSeparator = "&";
-        _this.m_EgalSeparator = "=";
-        if (key_separator != null) {
-            _this.m_KeySeparator = key_separator;
-        }
-        if (item_separator != null) {
-            _this.m_ItemSeparator = item_separator;
-        }
+    // protected m_KeySeparator: string = "_";
+    // protected m_ItemSeparator: string = "&";
+    // protected m_EgalSeparator: string = "=";
+    function StorageParams(options) {
+        if (options === void 0) { options = null; }
+        var _this = _super.call(this, options) || this;
+        _this.m_ParamOptions = ObjectExtensions_1.ObjectExtensions.overrideDefaultValue(options, {
+            hashSeparator: _this.m_BaseOptions.hashSeparator,
+            keySeparator: "_",
+            itemSeparator: "&",
+            egalSeparator: "="
+        });
         return _this;
     }
+    // constructor(key_separator: string = null, item_separator: string = null, egal_separator: string = null, separator: string = null) {
+    //     super(separator);
+    //     if (key_separator != null) {
+    //         this.m_KeySeparator = key_separator;
+    //     }
+    //     if (item_separator != null) {
+    //         this.m_ItemSeparator = item_separator;
+    //     }
+    //     if (egal_separator != null) {
+    //         this.m_EgalSeparator = egal_separator;
+    //     }
+    // }
     StorageParams.prototype.Save = function (data) {
         var _this = this;
-        var result = this.m_Separator;
+        var result = this.m_ParamOptions.hashSeparator;
         if (data.size > 0) {
             var lstItem_1 = new Array();
             data.forEach(function (v, k) {
                 lstItem_1.push(_this.serialize(null, k, v));
             });
-            result += lstItem_1.join(this.m_ItemSeparator);
+            result += lstItem_1.join(this.m_ParamOptions.itemSeparator);
         }
         return result;
     };
@@ -1873,14 +1884,14 @@ var StorageParams = (function (_super) {
         var result = new Map();
         var treeRoot = new TreeItem_1.TreeItem("root", null);
         try {
-            var hash = window.location.hash.slice(this.m_Separator.length);
+            var hash = window.location.hash.slice(this.m_ParamOptions.hashSeparator.length);
             if (hash.length > 0) {
                 hash = decodeURIComponent(hash);
-                var items = hash.split(this.m_ItemSeparator);
+                var items = hash.split(this.m_ParamOptions.itemSeparator);
                 for (var _i = 0, items_1 = items; _i < items_1.length; _i++) {
                     var item = items_1[_i];
-                    var expr = item.split(this.m_EgalSeparator);
-                    var itemKeys = expr[0].split(this.m_KeySeparator);
+                    var expr = item.split(this.m_ParamOptions.egalSeparator);
+                    var itemKeys = expr[0].split(this.m_ParamOptions.keySeparator);
                     var itemValue = expr[1];
                     this.buildTree(treeRoot, itemKeys, itemValue);
                 }
@@ -1911,7 +1922,7 @@ var StorageParams = (function (_super) {
         for (var item in value) {
             result.push(this.serialize(this.joinKey(parentKey, key), item, value[item]));
         }
-        return result.join(this.m_ItemSeparator);
+        return result.join(this.m_ParamOptions.itemSeparator);
     };
     StorageParams.prototype.serializeArray = function (parentKey, key, value) {
         var result = new Array();
@@ -1919,19 +1930,19 @@ var StorageParams = (function (_super) {
             result.push(this.serialize(this.joinKey(parentKey, key), i.toString(), value[i]));
         }
         ;
-        return result.join(this.m_ItemSeparator);
+        return result.join(this.m_ParamOptions.itemSeparator);
     };
     StorageParams.prototype.serializeScalar = function (parentKey, key, value) {
         var valueStr = "" + value;
         if (typeof value === "string") {
             valueStr = "\"" + value + "\"";
         }
-        return "" + this.joinKey(parentKey, key) + this.m_EgalSeparator + valueStr;
+        return "" + this.joinKey(parentKey, key) + this.m_ParamOptions.egalSeparator + valueStr;
     };
     StorageParams.prototype.joinKey = function (parentKey, key) {
         var result = key;
         if (parentKey != null) {
-            result = "" + parentKey + this.m_KeySeparator + result;
+            result = "" + parentKey + this.m_ParamOptions.keySeparator + result;
         }
         return result;
     };

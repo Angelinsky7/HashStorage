@@ -1,9 +1,9 @@
-import { HashStorageOptions } from "./HashStorageOptions";
+import { HashStorageOptions } from "../Options/HashStorageOptions";
 import { IStorage } from "./IStorage";
-import { PropertyCounter } from "./Utils/PropertyCounter";
-import { ObjectExtensions } from "./Utils/ObjectExtensions";
+import { PropertyCounter } from "../Utils/PropertyCounter";
+import { ObjectExtensions } from "../Utils/ObjectExtensions";
 import { EventDispatcher, IEvent } from "strongly-typed-events";
-import { HashChangedEventArgs } from "./HashChangedEventArgs";
+import { HashChangedEventArgs } from "../Events/HashChangedEventArgs";
 
 export class HashStorage {
 

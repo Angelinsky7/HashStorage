@@ -1,4 +1,4 @@
-export { HashStorage } from "./HashStorage";
-export { StorageHash } from "./StorageHash";
-export { Storage64 } from "./Storage64";
-export { StorageParams } from "./StorageParams";
+export { HashStorage } from "./Core/HashStorage";
+export { StorageJson } from "./Core/StorageJson";
+export { Storage64 } from "./Core/Storage64";
+export { StorageParams } from "./Core/StorageParams";

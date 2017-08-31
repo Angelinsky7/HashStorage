@@ -1,33 +1,50 @@
 import { StorageBase } from "./StorageBase";
-import { ObjectExtensions } from "./Utils/ObjectExtensions";
-import { TreeItem, TreeItemType } from "./Utils/TreeItem";
+import { ObjectExtensions } from "../Utils/ObjectExtensions";
+import { TreeItem, TreeItemType } from "../Utils/TreeItem";
+import { StorageParamsOptions } from "../Options/StorageModeOptions";
 
 export class StorageParams extends StorageBase {
 
-    protected m_KeySeparator: string = "_";
-    protected m_ItemSeparator: string = "&";
-    protected m_EgalSeparator: string = "=";
+    private m_ParamOptions: StorageParamsOptions;
 
-    constructor(key_separator: string = null, item_separator: string = null, separator: string = null) {
-        super(separator);
+    // protected m_KeySeparator: string = "_";
+    // protected m_ItemSeparator: string = "&";
+    // protected m_EgalSeparator: string = "=";
 
-        if (key_separator != null) {
-            this.m_KeySeparator = key_separator;
-        }
-        if (item_separator != null) {
-            this.m_ItemSeparator = item_separator;
-        }
+    constructor(options: StorageParamsOptions = null) {
+        super(options);
+
+        this.m_ParamOptions = ObjectExtensions.overrideDefaultValue<StorageParamsOptions>(options, {
+            hashSeparator: this.m_BaseOptions.hashSeparator,
+            keySeparator: "_",
+            itemSeparator: "&",
+            egalSeparator: "="
+        });
     }
 
+    // constructor(key_separator: string = null, item_separator: string = null, egal_separator: string = null, separator: string = null) {
+    //     super(separator);
+
+    //     if (key_separator != null) {
+    //         this.m_KeySeparator = key_separator;
+    //     }
+    //     if (item_separator != null) {
+    //         this.m_ItemSeparator = item_separator;
+    //     }
+    //     if (egal_separator != null) {
+    //         this.m_EgalSeparator = egal_separator;
+    //     }
+    // }
+
     Save(data: Map<string, object>): string {
-        let result: string = this.m_Separator;
+        let result: string = this.m_ParamOptions.hashSeparator;
 
         if (data.size > 0) {
             let lstItem: Array<string> = new Array<string>();
             data.forEach((v, k) => {
                 lstItem.push(this.serialize(null, k, v));
             });
-            result += lstItem.join(this.m_ItemSeparator);
+            result += lstItem.join(this.m_ParamOptions.itemSeparator);
         }
 
         return result;
@@ -38,13 +55,13 @@ export class StorageParams extends StorageBase {
         let treeRoot: TreeItem = new TreeItem("root", null);
 
         try {
-            let hash = window.location.hash.slice(this.m_Separator.length);
+            let hash = window.location.hash.slice(this.m_ParamOptions.hashSeparator.length);
             if (hash.length > 0) {
                 hash = decodeURIComponent(hash);
-                let items: string[] = hash.split(this.m_ItemSeparator);
+                let items: string[] = hash.split(this.m_ParamOptions.itemSeparator);
                 for (let item of items) {
-                    let expr: string[] = item.split(this.m_EgalSeparator);
-                    let itemKeys: string[] = expr[0].split(this.m_KeySeparator);
+                    let expr: string[] = item.split(this.m_ParamOptions.egalSeparator);
+                    let itemKeys: string[] = expr[0].split(this.m_ParamOptions.keySeparator);
                     let itemValue = expr[1];
 
                     this.buildTree(treeRoot, itemKeys, itemValue);
@@ -76,7 +93,7 @@ export class StorageParams extends StorageBase {
         for (let item in value) {
             result.push(this.serialize(this.joinKey(parentKey, key), item, value[item]));
         }
-        return result.join(this.m_ItemSeparator);
+        return result.join(this.m_ParamOptions.itemSeparator);
     }
 
     private serializeArray(parentKey: string, key: string, value: Array<any>): string {
@@ -84,7 +101,7 @@ export class StorageParams extends StorageBase {
         for (let i: number = 0; i < value.length; ++i) {
             result.push(this.serialize(this.joinKey(parentKey, key), i.toString(), value[i]));
         };
-        return result.join(this.m_ItemSeparator);
+        return result.join(this.m_ParamOptions.itemSeparator);
     }
 
     private serializeScalar(parentKey: string, key: string, value: object): string {
@@ -92,13 +109,13 @@ export class StorageParams extends StorageBase {
         if (typeof value === "string") {
             valueStr = `"${value}"`;
         }
-        return `${this.joinKey(parentKey, key)}${this.m_EgalSeparator}${valueStr}`;
+        return `${this.joinKey(parentKey, key)}${this.m_ParamOptions.egalSeparator}${valueStr}`;
     }
 
     private joinKey(parentKey: string, key: string): string {
         let result: string = key;
         if (parentKey != null) {
-            result = `${parentKey}${this.m_KeySeparator}${result}`;
+            result = `${parentKey}${this.m_ParamOptions.keySeparator}${result}`;
         }
         return result;
     }

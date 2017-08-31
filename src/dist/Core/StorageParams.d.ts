@@ -1,9 +1,8 @@
 import { StorageBase } from "./StorageBase";
+import { StorageParamsOptions } from "../Options/StorageModeOptions";
 export declare class StorageParams extends StorageBase {
-    protected m_KeySeparator: string;
-    protected m_ItemSeparator: string;
-    protected m_EgalSeparator: string;
-    constructor(key_separator?: string, item_separator?: string, separator?: string);
+    private m_ParamOptions;
+    constructor(options?: StorageParamsOptions);
     Save(data: Map<string, object>): string;
     Load(): Map<string, object>;
     private serialize(parentKey, key, value);

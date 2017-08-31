@@ -1,7 +1,7 @@
-import { HashStorageOptions } from "./HashStorageOptions";
+import { HashStorageOptions } from "../Options/HashStorageOptions";
 import { IStorage } from "./IStorage";
 import { IEvent } from "strongly-typed-events";
-import { HashChangedEventArgs } from "./HashChangedEventArgs";
+import { HashChangedEventArgs } from "../Events/HashChangedEventArgs";
 export declare class HashStorage {
     private m_IsDisposed;
     private m_Storage;

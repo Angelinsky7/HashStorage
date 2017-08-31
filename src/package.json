@@ -1,6 +1,6 @@
 {
     "name": "hashstorage",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "A storage in the window location hash",
     "main": "./dist/bundles/hashstorage.umd.js",
     "types": "./dist/index.d.ts",
@@ -9,11 +9,12 @@
         "hashstorage.min.js": "./dist/bundles/hashstorage.umd.min.js"
     },
     "scripts": {
-        "bundle": "npm  run prod && npm run build && npm pack",
+        "bundle": "npm run prod && npm run build && npm pack && npm run clean",
         "prod": "WEBPACK_ENV=prod webpack -p",
         "build": "WEBPACK_ENV=build webpack",
         "web": "WEBPACK_ENV=dev WEBPACK_CONFIG=./webpack.config.js node server.js",
         "dev": "WEBPACK_ENV=dev webpack --progress --colors --watch",
+        "clean": "rm -f README.md",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -37,7 +38,8 @@
         "awesome-typescript-loader": "^3.2.3",
         "source-map-loader": "^0.2.1",
         "morgan": "^1.8.2",
-        "clean-webpack-plugin": "^0.1.16"
+        "clean-webpack-plugin": "^0.1.16",
+        "copy-webpack-plugin": "^4.0.1"
     },
     "keywords": [
         "HashStorage",

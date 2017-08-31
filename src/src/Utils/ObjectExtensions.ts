@@ -10,14 +10,23 @@ export class ObjectExtensions {
         return result;
     }
 
-    public static override<T>(a: T, b: T): T {
+    public static override<T>(a: T, b: T, checkValueExists: boolean = true): T {
         let result: T = a;
         for (let id in b) {
             if (result.hasOwnProperty(id)) {
                 result[id] = b[id];
+            } else if (checkValueExists) {
+                throw `property ${id} does not exist in class ${typeof a} : ${a} and ${typeof b} : ${b}`;
             }
         }
         return result;
+    }
+
+    public static overrideDefaultValue<T>(options: T, default_option: T, checkValueExists: boolean = true): T {
+        if (options != null) {
+            ObjectExtensions.override<T>(default_option, options, checkValueExists);
+        }
+        return default_option;
     }
 
     public static isNumeric(value: any): boolean {

@@ -13,15 +13,24 @@
     <button id="clear">Clear</button>
     <button id="print">Print</button>
     <button id="remove">Remove</button>
-    <script src="/HashStorage.js"></script>
+    <script src="/hashstorage.umd.js"></script>
     <script>
         let options = {
             Debug: false
         };
+        let storageOptions = {
+            hashSeparator: "#!/"
+        };
+        let storageOptions2 = {
+            hashSeparator: "#!/////",
+            itemSeparator: "|||",
+            keySeparator: "___",
+            egalSeparator: "==="
+        };
 
-        // window.storage = new HashStorage.HashStorage(new HashStorage.StorageHash("#!/"), options);
-        // window.storage = new HashStorage.HashStorage(new HashStorage.Storage64(), options);
-        window.storage = new HashStorage.HashStorage(new HashStorage.StorageParams(), options);
+        //window.storage = new hashstorage.HashStorage(new hashstorage.StorageJson(storageOptions), options);
+        // window.storage = new hashstorage.HashStorage(new hashstorage.Storage64(), options);
+        window.storage = new hashstorage.HashStorage(new hashstorage.StorageParams(), options);
         window.storage.hashChanged.subscribe(function() {
             console.log("hash as changed from event");
             console.log("value of hash is " + window.storage);

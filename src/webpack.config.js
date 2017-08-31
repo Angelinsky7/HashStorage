@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
 var cleanWebpackPlugin = require('clean-webpack-plugin');
+var copyWebpackPlugin = require('copy-webpack-plugin');
 
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var env = process.env.WEBPACK_ENV;
@@ -24,9 +25,13 @@ if (env === 'prod') {
         comments: false,
         // include: /\.min\.js$/,
     }));
+    plugins.splice(0, 0, new copyWebpackPlugin([
+        { from: path.join(__dirname, '../res/README.md'), to: path.join(__dirname, 'README.md') }
+    ]));
     plugins.splice(0, 0, new cleanWebpackPlugin([
         path.join(__dirname, 'dist')
     ]));
+
     outputFile = libraryName + '.umd.min.js';
     tsconfigFilename = 'tsconfig.prod.json';
     devtoolmap = 'source-map';
