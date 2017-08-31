@@ -8,7 +8,7 @@ npm install --save hashstorage
 ```
 
 ## Types of store
-* StorageHash   : as a JSON string
+* StorageJson   : as a JSON string
 * Storage64     : json encoded64 string
 * StorageParams : as a list of key=param 
 
@@ -17,18 +17,18 @@ npm install --save hashstorage
 ```javascript
 <script src="node_modules/hashstorage/dist/bundles/hashstorage.umd.min.js"></script>
 <script>
-  var storage = new hashstorage.HashStorage(new hashStorage.StorageHash());
+  var storage = new hashstorage.HashStorage(new hashStorage.StorageJson());
 </script>
 ```
 ### Require
 ```javascript
 var hashstorage = require("hashstorage");
-var storage = new hashstorage.HashStorage(new hashStorage.StorageHash());
+var storage = new hashstorage.HashStorage(new hashStorage.StorageJson());
 ```
 ### Import
 ```javascript
-import {HashStorage, StorageHash} from 'hashstorage';
-var storage = new HashStorage(new StorageHash());
+import {HashStorage, StorageJson} from 'hashstorage';
+var storage = new HashStorage(new StorageJson());
 ```
 
 ## Usage
