@@ -15,7 +15,7 @@ npm install --save hashstorage
 ## Imports
 ### Scripts
 ```javascript
-<script src="node_modules/hashstorage/dist/bundles/hashstorage.min.umd.js"></script>
+<script src="node_modules/hashstorage/dist/bundles/hashstorage.umd.min.js"></script>
 <script>
   var storage = new hashstorage.HashStorage(new hashStorage.StorageHash());
 </script>
