@@ -33,10 +33,16 @@ var storage = new HashStorage(new StorageHash());
 
 ## Usage
 ```javascript
+//set an item with a key, if the item already exist overwrite it
 storage.setItem(key, value);
+//get value of an item, if the item does not exist return null
 var value = storage.getItem(key);
+//remove an item with a key, if the item does not exist do nothing
 storage.removeItem(key);
+//clear the storage
 storage.clear();
+//listen to the event of the hash change
+//if you listen to window.addEventListener("hashchange", function () { ... }); the value will not be yet parsed
 storage.hashChanged.subscribe(function(){
   //do something here
 });
